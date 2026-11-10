@@ -6,16 +6,17 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Create an account · Bisig</title>
     <link rel="stylesheet" href="{% static 'css/common/common.css' %}">
+    <link rel="stylesheet" href="{% static 'css/common/auth.css' %}">
     <link rel="stylesheet" href="{% static 'css/register/register.css' %}">
 </head>
-<body>
-    <div class="board">
-        <div class="form-panel">
+<body class="auth-page">
+    <div class="auth-board">
+        <section class="auth-form">
             <h2>Create your account</h2>
             <p class="lede">Join your barangay's skill exchange.</p>
 
             {% if error %}
-                <p class="error-banner" style="margin-left:0; margin-right:0;">{{ error }}</p>
+                <div class="error-banner">{{ error }}</div>
             {% endif %}
 
             <form method="post" class="stack">
@@ -32,14 +33,23 @@
                     <label for="id_confirm_password">Confirm password</label>
                     <input type="password" id="id_confirm_password" name="confirm_password" placeholder="Re-enter your password" required>
                 </p>
-                <button type="submit" class="btn btn-amber">Create account</button>
+                <button type="submit" class="btn btn-green btn-block">Create account</button>
             </form>
 
-            <p class="back-link">Already have an account? <a href="{% url 'login:login' %}">Back to login</a></p>
-        </div>
-        <div class="side-panel">
-            <h1>Bisig</h1>
-            <p class="tagline">Offer a skill. Solve a neighbor's problem. Earn a little along the way.</p>
+            <p class="form-foot">Already have an account? <a href="{% url 'login:login' %}">Back to login</a></p>
+        </section>
+
+        <aside class="auth-side">
+            <span class="auth-brand">
+                <span class="brand-mark">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="5.5" r="2.5"/><circle cx="5.5" cy="17.5" r="2.5"/><circle cx="18.5" cy="17.5" r="2.5"/><path d="m10.8 7.8-4.1 7.4M13.2 7.8l4.1 7.4M8 17.5h8"/></svg>
+                </span>
+                Bisig
+            </span>
+            <div class="auth-copy">
+                <h1>Offer a skill. Solve a neighbor's problem.</h1>
+                <p>Earn a little along the way, and keep the community strong.</p>
+            </div>
             <div class="skill-tags">
                 <span>Tutoring</span>
                 <span>Plumbing</span>
@@ -47,7 +57,7 @@
                 <span>Catering</span>
                 <span>Errands</span>
             </div>
-        </div>
+        </aside>
     </div>
 </body>
 </html>
