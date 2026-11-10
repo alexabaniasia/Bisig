@@ -11,9 +11,12 @@
 <body>
     {% include 'partials/topbar.html' with active='profile' %}
 
-    <main class="wrap">
-        <p class="eyebrow-label">ACCOUNT</p>
-        <h1>Profile</h1>
+    <main class="container narrow page">
+        <div class="page-title">
+            <span class="kicker">Account</span>
+            <h1>Your profile</h1>
+            <p>This is how your neighbors see you on Bisig.</p>
+        </div>
 
         <form method="post" enctype="multipart/form-data" class="stack card profile-card">
             {% csrf_token %}
@@ -38,9 +41,9 @@
                     <p class="name">{{ request.user.username }}</p>
                     <p class="handle">Member since {{ request.user.date_joined|date:"M Y" }}</p>
                     <div class="avatar-actions">
-                        <label for="id_profile_image" class="btn-ghost">Upload New</label>
+                        <label for="id_profile_image" class="btn btn-outline btn-sm">Upload new</label>
                         {% if profile.profile_image %}
-                            <label for="profile_image-clear_id" class="btn-ghost btn-danger-ghost">Remove Photo</label>
+                            <label for="profile_image-clear_id" class="btn btn-outline btn-sm btn-danger-outline">Remove photo</label>
                         {% endif %}
                     </div>
                     {% if form.profile_image.errors %}
@@ -51,16 +54,9 @@
                 <div class="visually-hidden-field">{{ form.profile_image }}</div>
             </div>
 
-            <div class="field-row two-col">
-                <div class="field">
-                    <label for="id_full_name">Full Name</label>
-                    {{ form.full_name }}
-                    {% if form.full_name.errors %}<p class="field-error">{{ form.full_name.errors.0 }}</p>{% endif %}
-                </div>
-                <div class="field">
-                    <label for="id_username_display">Username</label>
-                    <input type="text" id="id_username_display" value="{{ request.user.username }}" disabled>
-                </div>
+            <div class="field">
+                <label for="id_username_display">Username</label>
+                <input type="text" id="id_username_display" value="{{ request.user.username }}" disabled>
             </div>
 
             <div class="field">
@@ -69,7 +65,7 @@
                 {% if form.bio.errors %}<p class="field-error">{{ form.bio.errors.0 }}</p>{% endif %}
             </div>
 
-            <button type="submit" class="btn btn-inline">Save Changes</button>
+            <button type="submit" class="btn btn-primary">Save changes</button>
         </form>
 
         <a href="{% url 'home:home' %}" class="back-link">
@@ -77,5 +73,7 @@
             Back to Home
         </a>
     </main>
+
+    {% include 'partials/footer.html' %}
 </body>
 </html>

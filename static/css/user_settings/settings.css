@@ -1,41 +1,21 @@
-/* Bisig — Account Settings */
+/* Bisig — Settings */
 
-main.wrap {
-    max-width: 640px;
-    margin: 0 auto;
-    padding: 36px 24px 60px 24px;
-}
-
-main.wrap h1 {
-    font-size: 24px;
-    margin: 0 0 22px 0;
-    text-align: left;
-}
-
-.eyebrow-label {
-    font-size: 12.5px;
-    font-weight: 600;
-    letter-spacing: 0.03em;
-    color: var(--ink-soft);
-    margin: 0 0 4px 0;
-}
-
-.settings-card { padding: 32px; text-align: left; }
+.settings-card { padding: 32px; }
 
 .settings-section-label {
-    font-size: 11.5px;
+    margin-bottom: 12px;
+    font-size: 12px;
     font-weight: 700;
-    letter-spacing: 0.05em;
+    letter-spacing: 0.06em;
     text-transform: uppercase;
     color: var(--ink-soft);
-    margin: 0 0 12px 4px;
 }
 
 .settings-group {
+    margin-bottom: 26px;
     border: 1px solid var(--line);
-    border-radius: var(--radius);
+    border-radius: 16px;
     overflow: hidden;
-    margin-bottom: 24px;
 }
 
 .toggle-row {
@@ -47,39 +27,26 @@ main.wrap h1 {
     transition: background 0.15s;
 }
 
-.toggle-row:hover { background: var(--paper-dark); }
+.toggle-row:hover { background: var(--surface-alt); }
 .toggle-row + .toggle-row { border-top: 1px solid var(--line); }
 
 .toggle-icon {
     flex: none;
-    width: 38px;
-    height: 38px;
-    border-radius: 10px;
-    background: var(--mint);
-    color: var(--green-dark);
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    width: 40px;
+    height: 40px;
+    border-radius: 12px;
+    display: grid;
+    place-items: center;
+    background: var(--blue-soft);
+    color: var(--blue-ink);
 }
 
-.toggle-icon svg { width: 18px; height: 18px; }
+.toggle-row + .toggle-row .toggle-icon { background: var(--green-soft); color: var(--green-ink); }
+.toggle-icon svg { width: 19px; height: 19px; }
 
 .toggle-text { flex: 1; min-width: 0; }
-
-.toggle-title {
-    display: block;
-    font-family: 'Space Grotesk', sans-serif;
-    font-weight: 600;
-    font-size: 14.5px;
-    color: var(--ink);
-}
-
-.toggle-caption {
-    display: block;
-    font-size: 12.5px;
-    color: var(--ink-soft);
-    margin-top: 2px;
-}
+.toggle-title { display: block; font-size: 15px; font-weight: 600; }
+.toggle-caption { display: block; margin-top: 2px; font-size: 13px; color: var(--ink-soft); }
 
 .toggle-checkbox {
     position: absolute;
@@ -90,12 +57,12 @@ main.wrap h1 {
 }
 
 .toggle-switch {
+    position: relative;
     flex: none;
-    width: 44px;
-    height: 26px;
+    width: 46px;
+    height: 27px;
     border-radius: 999px;
     background: var(--line);
-    position: relative;
     transition: background 0.2s;
 }
 
@@ -103,58 +70,33 @@ main.wrap h1 {
     position: absolute;
     top: 3px;
     left: 3px;
-    width: 20px;
-    height: 20px;
+    width: 21px;
+    height: 21px;
     border-radius: 50%;
-    background: white;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
+    background: #fff;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
     transition: transform 0.2s;
 }
 
 .toggle-checkbox:checked ~ .toggle-switch { background: var(--green); }
-.toggle-checkbox:checked ~ .toggle-switch .toggle-knob { transform: translateX(18px); }
-.toggle-checkbox:focus-visible ~ .toggle-switch { outline: 2px solid var(--amber); outline-offset: 2px; }
+.toggle-checkbox:checked ~ .toggle-switch .toggle-knob { transform: translateX(19px); }
+.toggle-checkbox:focus-visible ~ .toggle-switch { outline: 3px solid rgba(37, 99, 235, 0.35); outline-offset: 2px; }
 
-.btn-inline {
-    display: inline-block;
-    width: auto;
-    padding: 12px 30px;
-    margin-top: 4px;
-}
-
-/* Dark mode variant, applied via body.dark-mode set from the settings flag */
+/* Dark mode: flips the shared color variables, so every component follows */
 body.dark-mode {
-    background-color: #23201A;
-    background-image: radial-gradient(circle, #3A362B 1px, transparent 1px);
+    --bg: #0A1222;
+    --surface: #111B30;
+    --surface-alt: #16223B;
+    --ink: #EAF0FB;
+    --ink-soft: #9FB0CD;
+    --line: #24344F;
+    --blue-soft: #16294F;
+    --green-soft: #123A2E;
+    --blue-ink: #9DBBFF;
+    --green-ink: #6EDDA9;
+    --shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
+    --shadow-lg: 0 28px 70px rgba(0, 0, 0, 0.5);
+    background-image:
+        radial-gradient(700px 420px at 6% -4%, rgba(37, 99, 235, 0.20), transparent 65%),
+        radial-gradient(600px 400px at 98% 2%, rgba(22, 162, 99, 0.14), transparent 65%);
 }
-
-body.dark-mode h1,
-body.dark-mode .topbar .wordmark { color: var(--mint); }
-
-body.dark-mode .site-header {
-    background: rgba(35, 32, 26, 0.85);
-    border-bottom-color: #4A4433;
-}
-
-body.dark-mode .topbar nav a.nav-btn { color: var(--green-dark); }
-
-body.dark-mode .card,
-body.dark-mode .settings-group { background: #2E2A22; border-color: #4A4433; }
-
-body.dark-mode .settings-card { box-shadow: 0 20px 50px rgba(0, 0, 0, 0.35); }
-
-body.dark-mode .eyebrow-label,
-body.dark-mode .settings-section-label,
-body.dark-mode .toggle-caption { color: #C9C2AC; }
-
-body.dark-mode .toggle-title { color: #EDE7D8; }
-
-body.dark-mode .toggle-row:hover { background: #3A362B; }
-body.dark-mode .toggle-row + .toggle-row { border-top-color: #4A4433; }
-
-body.dark-mode .toggle-icon { background: #3A4B41; color: #8FD6B4; }
-
-body.dark-mode .toggle-switch { background: #4A4433; }
-
-body.dark-mode .back-link,
-body.dark-mode a { color: #8FD6B4; }
