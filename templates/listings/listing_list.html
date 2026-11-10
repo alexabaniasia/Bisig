@@ -11,14 +11,15 @@
 <body>
     {% include 'partials/topbar.html' with active='browse' %}
 
-    <main class="page">
-        <div class="page-head">
-            <div>
+    <main class="container page">
+        <div class="list-head">
+            <div class="page-title">
+                <span class="kicker">Community board</span>
                 <h1>Browse listings</h1>
-                <p class="subtitle">See what your neighbors are offering or asking for.</p>
+                <p>See what your neighbors are offering or asking for.</p>
             </div>
             {% if user.is_authenticated %}
-                <a href="{% url 'listings:listing_create' %}" class="btn btn-inline">+ Post a listing</a>
+                <a href="{% url 'listings:listing_create' %}" class="btn btn-primary">+ Post a listing</a>
             {% endif %}
         </div>
 
@@ -33,18 +34,22 @@
             <div class="listing-grid">
                 {% for listing in listings %}
                     {% cycle 'cat-1' 'cat-2' 'cat-3' 'cat-4' 'cat-5' as cat_class silent %}
-                    <article class="listing-card">
+                    <article class="card listing-card">
+                        <div class="listing-top">
+                            <span class="avatar-sm">{{ listing.user.username|first|upper }}</span>
+                            <div class="who">
+                                <strong>{{ listing.user.username }}</strong>
+                                <small>{{ listing.date_posted|timesince }} ago</small>
+                            </div>
+                            <span class="status-pill status-{{ listing.status }}">{{ listing.get_status_display }}</span>
+                        </div>
+                        <h3>{{ listing.title }}</h3>
+                        <p class="listing-desc">{{ listing.description|truncatewords:22 }}</p>
                         <div class="listing-tags">
                             <span class="cat-pill {{ cat_class }}">{{ listing.category.category_name }}</span>
                             <span class="type-pill {% if listing.listing_type == 'offer' %}type-offer{% else %}type-request{% endif %}">
                                 {% if listing.listing_type == 'offer' %}Offering{% else %}Requesting{% endif %}
                             </span>
-                        </div>
-                        <h3>{{ listing.title }}</h3>
-                        <p class="listing-desc">{{ listing.description|truncatewords:22 }}</p>
-                        <div class="listing-foot">
-                            <span class="listing-meta">{{ listing.user.username }} · {{ listing.date_posted|timesince }} ago</span>
-                            <span class="status-pill status-{{ listing.status }}">{{ listing.get_status_display }}</span>
                         </div>
                     </article>
                 {% endfor %}
@@ -53,12 +58,14 @@
             <div class="empty-state">
                 <p>No listings here yet.</p>
                 {% if user.is_authenticated %}
-                    <a href="{% url 'listings:listing_create' %}" class="btn btn-inline">Be the first to post one</a>
+                    <a href="{% url 'listings:listing_create' %}" class="btn btn-primary">Be the first to post one</a>
                 {% else %}
                     <a href="{% url 'login:login' %}">Log in</a> to post the first one.
                 {% endif %}
             </div>
         {% endif %}
     </main>
+
+    {% include 'partials/footer.html' %}
 </body>
 </html>

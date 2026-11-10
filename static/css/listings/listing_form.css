@@ -1,19 +1,7 @@
-/* Bisig — Post a Listing */
+/* Bisig — Post a listing */
 
-main.wrap {
-    max-width: 440px;
-    margin: 0 auto;
-    padding: 48px 24px 60px 24px;
-}
+.form-card { padding: 32px; }
 
-main.wrap h1 { font-size: 24px; }
-
-main.wrap .subtitle {
-    font-size: 14px;
-    color: var(--ink-soft);
-    margin: 6px 0 24px 0;
-}
-
-.card {
-    padding: 28px 32px;
+@media (max-width: 560px) {
+    .form-card { padding: 24px 20px; }
 }
