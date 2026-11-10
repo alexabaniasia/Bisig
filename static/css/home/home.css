@@ -1,0 +1,165 @@
+/* Bisig — Home */
+
+.home-main {
+    max-width: 980px;
+    margin: 0 auto;
+    padding: 32px 24px 64px 24px;
+}
+
+/* ---------- Hero banner ---------- */
+
+.hero {
+    position: relative;
+    background: linear-gradient(120deg, var(--green) 0%, var(--green-dark) 100%);
+    color: white;
+    border-radius: 20px;
+    padding: 40px 44px;
+    overflow: hidden;
+    margin-bottom: 32px;
+    box-shadow: 0 20px 50px rgba(38, 32, 20, 0.18);
+}
+
+.hero::after {
+    content: "B";
+    position: absolute;
+    font-family: 'Space Grotesk', sans-serif;
+    font-weight: 700;
+    font-size: 260px;
+    line-height: 1;
+    right: -30px;
+    bottom: -100px;
+    color: rgba(255, 255, 255, 0.06);
+    pointer-events: none;
+}
+
+.hero .kicker {
+    position: relative;
+    display: inline-block;
+    font-family: 'Space Grotesk', sans-serif;
+    font-weight: 700;
+    font-size: 12.5px;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--mint);
+    background: rgba(255, 255, 255, 0.12);
+    border: 1px solid rgba(255, 255, 255, 0.22);
+    padding: 5px 12px;
+    border-radius: 999px;
+    margin-bottom: 18px;
+}
+
+.hero h1 {
+    position: relative;
+    font-size: 30px;
+    color: white;
+    margin-bottom: 10px;
+    line-height: 1.15;
+}
+
+.hero p.tagline {
+    position: relative;
+    font-size: 14.5px;
+    line-height: 1.6;
+    color: var(--mint);
+    max-width: 52ch;
+    margin: 0;
+}
+
+/* ---------- Postings ---------- */
+
+.postings-section .lede {
+    font-size: 12.5px;
+    font-weight: 600;
+    letter-spacing: 0.03em;
+    color: var(--ink-soft);
+    margin: 0 0 4px 0;
+}
+
+.postings-section h2 {
+    font-size: 21px;
+    margin-bottom: 20px;
+}
+
+.postings-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+    gap: 16px;
+}
+
+.posting-card {
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    transition: transform 0.15s, box-shadow 0.15s, border-color 0.15s;
+}
+
+.posting-card:hover {
+    transform: translateY(-3px);
+    box-shadow: var(--shadow);
+    border-color: var(--green);
+}
+
+.posting-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.posting-icon {
+    flex: none;
+    width: 40px;
+    height: 40px;
+    border-radius: 11px;
+    background: var(--mint);
+    color: var(--green-dark);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.posting-icon svg { width: 20px; height: 20px; }
+
+.posting-tag {
+    background: var(--paper-dark);
+    color: var(--green-dark);
+    font-weight: 600;
+    font-size: 11.5px;
+    padding: 4px 11px;
+    border-radius: 999px;
+}
+
+.posting-card h3 {
+    font-family: 'Space Grotesk', sans-serif;
+    font-weight: 600;
+    font-size: 16px;
+    margin: 0;
+    color: var(--ink);
+}
+
+.posting-card .posting-desc {
+    font-size: 13.5px;
+    color: var(--ink-soft);
+    line-height: 1.55;
+    margin: 0;
+    flex: 1;
+}
+
+.posting-meta {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--ink-soft);
+    padding-top: 10px;
+    border-top: 1px dashed var(--line);
+}
+
+@media (max-width: 560px) {
+    .hero { padding: 32px 28px; }
+    .hero::after { display: none; }
+}

@@ -1,0 +1,167 @@
+/* Bisig — Profile */
+
+main.wrap {
+    max-width: 640px;
+    margin: 0 auto;
+    padding: 36px 24px 60px 24px;
+}
+
+main.wrap h1 { font-size: 24px; margin: 0 0 22px 0; }
+
+.eyebrow-label {
+    font-size: 12.5px;
+    font-weight: 600;
+    letter-spacing: 0.03em;
+    color: var(--ink-soft);
+    margin: 0 0 4px 0;
+}
+
+.profile-card { padding: 32px; text-align: left; }
+
+/* ---------- Avatar header row ---------- */
+
+.profile-head {
+    display: flex;
+    align-items: center;
+    gap: 22px;
+    flex-wrap: wrap;
+    padding-bottom: 26px;
+    margin-bottom: 26px;
+    border-bottom: 1px dashed var(--line);
+}
+
+.avatar-frame { position: relative; flex: none; }
+
+.avatar {
+    width: 96px;
+    height: 96px;
+    object-fit: cover;
+    border-radius: 50%;
+    border: 3px solid var(--card);
+    outline: 2px solid var(--mint);
+    box-shadow: 0 10px 26px rgba(38, 32, 20, 0.16);
+    display: block;
+}
+
+.avatar-placeholder {
+    width: 96px;
+    height: 96px;
+    border-radius: 50%;
+    background: var(--mint);
+    color: var(--green-dark);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Space Grotesk', sans-serif;
+    font-weight: 700;
+    font-size: 28px;
+}
+
+.avatar-edit-btn {
+    position: absolute;
+    right: -2px;
+    bottom: -2px;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: var(--green);
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 3px solid var(--card);
+    box-shadow: 0 4px 10px rgba(31, 92, 69, 0.35);
+    cursor: pointer;
+    transition: background 0.15s;
+}
+
+.avatar-edit-btn:hover { background: var(--green-dark); }
+.avatar-edit-btn svg { width: 14px; height: 14px; }
+
+.profile-head-info { flex: 1; min-width: 200px; }
+
+.profile-head-info .name {
+    font-family: 'Space Grotesk', sans-serif;
+    font-weight: 700;
+    font-size: 18px;
+    color: var(--ink);
+    margin: 0 0 2px 0;
+}
+
+.profile-head-info .handle {
+    font-size: 13px;
+    color: var(--ink-soft);
+    margin: 0 0 14px 0;
+}
+
+.avatar-actions { display: flex; gap: 10px; flex-wrap: wrap; }
+
+.btn-ghost {
+    display: inline-flex;
+    align-items: center;
+    padding: 8px 16px;
+    border-radius: 8px;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    border: 1px solid var(--line);
+    background: var(--paper);
+    color: var(--ink);
+    text-decoration: none;
+    transition: background 0.15s, border-color 0.15s;
+}
+
+.btn-ghost:hover { background: var(--paper-dark); border-color: var(--green); text-decoration: none; }
+
+.btn-ghost.btn-danger-ghost { color: var(--error); }
+.btn-ghost.btn-danger-ghost:hover { background: #F6E3DC; border-color: var(--error); }
+
+/* Hides the real file input + clear checkbox, but keeps them operable via the labels above */
+.visually-hidden-field,
+.visually-hidden-field * {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+}
+
+/* ---------- Form fields ---------- */
+
+.field-row.two-col {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+}
+
+.field { margin-bottom: 18px; }
+
+.field label {
+    display: block;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--ink);
+    margin-bottom: 6px;
+}
+
+.field-error {
+    color: var(--error);
+    font-size: 12px;
+    margin: 6px 0 0 0;
+}
+
+.btn-inline {
+    display: inline-block;
+    width: auto;
+    padding: 12px 30px;
+    margin-top: 4px;
+}
+
+@media (max-width: 560px) {
+    .field-row.two-col { grid-template-columns: 1fr; }
+    .profile-card { padding: 26px 22px 30px 22px; }
+}

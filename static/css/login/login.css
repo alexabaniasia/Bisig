@@ -1,0 +1,101 @@
+/* Bisig — Login */
+
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 24px;
+}
+
+.board {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    width: 100%;
+    max-width: 860px;
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: 0 24px 60px rgba(38, 32, 20, 0.18);
+}
+
+.side-panel {
+    position: relative;
+    background: linear-gradient(165deg, var(--green) 0%, var(--green-dark) 100%);
+    color: white;
+    padding: 52px 44px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    overflow: hidden;
+}
+
+.side-panel::after {
+    content: "B";
+    position: absolute;
+    font-family: 'Space Grotesk', sans-serif;
+    font-weight: 700;
+    font-size: 340px;
+    line-height: 1;
+    right: -60px;
+    bottom: -90px;
+    color: rgba(255, 255, 255, 0.06);
+    pointer-events: none;
+}
+
+.side-panel h1 {
+    font-size: 38px;
+    color: white;
+    margin-bottom: 14px;
+}
+
+.side-panel p.tagline {
+    font-size: 15px;
+    line-height: 1.6;
+    color: var(--mint);
+    max-width: 30ch;
+    margin: 0 0 32px 0;
+    position: relative;
+}
+
+.skill-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    position: relative;
+}
+
+.skill-tags span {
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.22);
+    color: var(--mint);
+    font-size: 13px;
+    padding: 6px 14px;
+    border-radius: 999px;
+}
+
+.form-panel {
+    background: var(--card);
+    padding: 52px 44px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.form-panel h2 {
+    font-size: 24px;
+    margin-bottom: 6px;
+}
+
+.form-panel .lede {
+    font-size: 14px;
+    color: var(--ink-soft);
+    margin: 0 0 28px 0;
+}
+
+.form-panel form p { margin: 0 0 16px 0; }
+
+@media (max-width: 720px) {
+    .board { grid-template-columns: 1fr; }
+    .side-panel { padding: 40px 32px; }
+    .side-panel::after { display: none; }
+    .form-panel { padding: 40px 32px; }
+}

@@ -1,0 +1,81 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Profile · Bisig</title>
+    <link rel="stylesheet" href="{% static 'css/common/common.css' %}">
+    <link rel="stylesheet" href="{% static 'css/user_profile/profile.css' %}">
+</head>
+<body>
+    {% include 'partials/topbar.html' with active='profile' %}
+
+    <main class="wrap">
+        <p class="eyebrow-label">ACCOUNT</p>
+        <h1>Profile</h1>
+
+        <form method="post" enctype="multipart/form-data" class="stack card profile-card">
+            {% csrf_token %}
+
+            {% if form.non_field_errors %}
+                <div class="error-banner">{{ form.non_field_errors.0 }}</div>
+            {% endif %}
+
+            <div class="profile-head">
+                <div class="avatar-frame">
+                    {% if profile.profile_image %}
+                        <img src="{{ profile.profile_image.url }}" alt="{{ request.user.username }}'s profile picture" class="avatar">
+                    {% else %}
+                        <div class="avatar-placeholder">{{ request.user.username|first|upper }}</div>
+                    {% endif %}
+                    <label for="id_profile_image" class="avatar-edit-btn" title="Change photo">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2Z"/><circle cx="12" cy="13" r="4"/></svg>
+                    </label>
+                </div>
+
+                <div class="profile-head-info">
+                    <p class="name">{{ request.user.username }}</p>
+                    <p class="handle">Member since {{ request.user.date_joined|date:"M Y" }}</p>
+                    <div class="avatar-actions">
+                        <label for="id_profile_image" class="btn-ghost">Upload New</label>
+                        {% if profile.profile_image %}
+                            <label for="profile_image-clear_id" class="btn-ghost btn-danger-ghost">Remove Photo</label>
+                        {% endif %}
+                    </div>
+                    {% if form.profile_image.errors %}
+                        <p class="field-error">{{ form.profile_image.errors.0 }}</p>
+                    {% endif %}
+                </div>
+
+                <div class="visually-hidden-field">{{ form.profile_image }}</div>
+            </div>
+
+            <div class="field-row two-col">
+                <div class="field">
+                    <label for="id_full_name">Full Name</label>
+                    {{ form.full_name }}
+                    {% if form.full_name.errors %}<p class="field-error">{{ form.full_name.errors.0 }}</p>{% endif %}
+                </div>
+                <div class="field">
+                    <label for="id_username_display">Username</label>
+                    <input type="text" id="id_username_display" value="{{ request.user.username }}" disabled>
+                </div>
+            </div>
+
+            <div class="field">
+                <label for="id_bio">Bio</label>
+                {{ form.bio }}
+                {% if form.bio.errors %}<p class="field-error">{{ form.bio.errors.0 }}</p>{% endif %}
+            </div>
+
+            <button type="submit" class="btn btn-inline">Save Changes</button>
+        </form>
+
+        <a href="{% url 'home:home' %}" class="back-link">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m12 19-7-7 7-7"/><path d="M19 12H5"/></svg>
+            Back to Home
+        </a>
+    </main>
+</body>
+</html>

@@ -1,0 +1,256 @@
+/* Bisig — shared tokens & base
+   Loaded on every page, before the page-specific stylesheet. */
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap');
+
+:root {
+    --paper: #F6F1E3;
+    --paper-dark: #ECE3CC;
+    --card: #FFFDF7;
+    --ink: #2A241A;
+    --ink-soft: #6B6252;
+    --green: #1F5C45;
+    --green-dark: #163F30;
+    --mint: #C9E4D6;
+    --amber: #D98E2B;
+    --amber-dark: #B5731C;
+    --line: #DED0A6;
+    --error: #B3442C;
+    --radius: 16px;
+    --shadow: 0 20px 50px rgba(38, 32, 20, 0.14);
+}
+
+* { box-sizing: border-box; }
+
+html { -webkit-text-size-adjust: 100%; }
+
+body {
+    margin: 0;
+    min-height: 100vh;
+    font-family: 'Inter', sans-serif;
+    font-size: 15px;
+    color: var(--ink);
+    background-color: var(--paper);
+    background-image: radial-gradient(circle, var(--line) 1px, transparent 1px);
+    background-size: 22px 22px;
+    -webkit-font-smoothing: antialiased;
+}
+
+h1, h2 {
+    font-family: 'Space Grotesk', sans-serif;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    color: var(--green-dark);
+    margin: 0;
+}
+
+a { color: var(--green); text-decoration: none; }
+a:hover { text-decoration: underline; }
+
+/* ---------- Top navigation (home / profile / settings) ---------- */
+
+.site-header {
+    position: sticky;
+    top: 0;
+    z-index: 20;
+    background: rgba(255, 253, 247, 0.78);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border-bottom: 1px solid var(--line);
+}
+
+.topbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    padding: 14px 28px;
+    gap: 16px;
+    box-sizing: border-box;
+}
+
+.topbar .wordmark {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-family: 'Space Grotesk', sans-serif;
+    font-weight: 700;
+    font-size: 19px;
+    color: var(--green-dark);
+    text-decoration: none;
+    letter-spacing: -0.01em;
+    flex: none;
+}
+
+.topbar .wordmark:hover { text-decoration: none; opacity: 0.88; }
+
+.topbar .logo-mark {
+    width: 30px;
+    height: 30px;
+    border-radius: 9px;
+    background: linear-gradient(155deg, var(--green) 0%, var(--green-dark) 100%);
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 15px;
+    font-weight: 700;
+    box-shadow: 0 4px 10px rgba(31, 92, 69, 0.32);
+}
+
+.topbar nav {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+}
+
+.topbar nav a.nav-btn {
+    flex: none;
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    background: var(--mint);
+    color: var(--green-dark);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    transition: background 0.15s, color 0.15s, transform 0.15s;
+}
+
+.topbar nav a.nav-btn svg { width: 17px; height: 17px; }
+
+.topbar nav a.nav-btn:hover {
+    background: var(--green);
+    color: white;
+    text-decoration: none;
+    transform: translateY(-1px);
+}
+
+.topbar nav a.nav-btn.is-active {
+    background: var(--green);
+    color: white;
+}
+
+.topbar nav a.nav-btn.is-signout:hover {
+    background: var(--amber);
+    color: white;
+}
+
+@media (max-width: 560px) {
+    .topbar { padding: 12px 16px; }
+}
+
+/* ---------- Generic card & form styling, reused across pages ---------- */
+
+.card {
+    background: var(--card);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+}
+
+.eyebrow {
+    font-size: 13.5px;
+    color: var(--ink-soft);
+    margin: 6px 0 0 0;
+}
+
+.error-banner {
+    max-width: 360px;
+    margin: 0 auto 16px auto;
+    padding: 12px 16px;
+    background: #F6E3DC;
+    border: 1px solid #E3B6A3;
+    color: var(--error);
+    border-radius: 10px;
+    font-size: 13.5px;
+}
+
+form.stack p { margin: 0 0 16px 0; }
+
+form.stack p label {
+    display: block;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--ink);
+    margin-bottom: 6px;
+}
+
+form.stack input,
+form.stack select,
+form.stack textarea {
+    width: 100%;
+    padding: 11px 14px;
+    border: 1px solid var(--line);
+    background: var(--paper);
+    border-radius: 8px;
+    font-family: 'Inter', sans-serif;
+    font-size: 14.5px;
+    color: var(--ink);
+    transition: border-color 0.15s, box-shadow 0.15s;
+}
+
+form.stack input::placeholder { color: var(--ink-soft); }
+
+form.stack input[type="file"] {
+    padding: 9px 10px;
+    cursor: pointer;
+}
+
+form.stack input[type="checkbox"] {
+    width: auto;
+    accent-color: var(--green);
+    margin-right: 8px;
+}
+
+form.stack input:focus,
+form.stack select:focus,
+form.stack textarea:focus {
+    outline: none;
+    border-color: var(--green);
+    box-shadow: 0 0 0 3px rgba(31, 92, 69, 0.15);
+}
+
+form.stack input:disabled {
+    background: var(--paper-dark);
+    color: var(--ink-soft);
+    cursor: not-allowed;
+}
+
+.btn {
+    display: block;
+    width: 100%;
+    padding: 13px;
+    background-color: var(--green);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-family: 'Inter', sans-serif;
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+    margin-top: 4px;
+    transition: background 0.2s;
+}
+
+.btn:hover { background-color: var(--green-dark); }
+.btn:focus-visible { outline: 2px solid var(--amber); outline-offset: 2px; }
+
+.btn-amber { background-color: var(--amber); color: var(--green-dark); }
+.btn-amber:hover { background-color: var(--amber-dark); color: white; }
+
+.back-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    margin: 22px auto 0 auto;
+    width: fit-content;
+}
+
+main.wrap { text-align: inherit; }
+main.wrap .back-link {
+    display: flex;
+    justify-content: center;
+    margin-left: auto;
+    margin-right: auto;
+}
