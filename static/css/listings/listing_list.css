@@ -101,3 +101,8 @@
 @media (max-width: 600px) {
     .listing-grid { grid-template-columns: 1fr; }
 }
+
+/* Make the whole listing card clickable through its title link */
+.listing-card { position: relative; }
+.listing-card h3 a { color: inherit; text-decoration: none; }
+.listing-card h3 a::after { content: ""; position: absolute; inset: 0; border-radius: inherit; }

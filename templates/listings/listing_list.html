@@ -43,7 +43,7 @@
                             </div>
                             <span class="status-pill status-{{ listing.status }}">{{ listing.get_status_display }}</span>
                         </div>
-                        <h3>{{ listing.title }}</h3>
+                        <h3><a href="{% url 'listings:listing_detail' listing.pk %}">{{ listing.title }}</a></h3>
                         <p class="listing-desc">{{ listing.description|truncatewords:22 }}</p>
                         <div class="listing-tags">
                             <span class="cat-pill {{ cat_class }}">{{ listing.category.category_name }}</span>
