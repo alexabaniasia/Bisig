@@ -41,6 +41,7 @@
 
             <form method="post" class="stack">
                 {% csrf_token %}
+                <input type="hidden" name="next" value="{{ next }}">
                 <p>
                     <label for="id_username">Username</label>
                     <input type="text" id="id_username" name="username" placeholder="Your username" required>
