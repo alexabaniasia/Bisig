@@ -329,3 +329,6 @@ form.stack input:disabled { background: var(--line); color: var(--ink-soft); cur
     .footer-grid { grid-template-columns: 1fr 1fr; }
     .footer-about { grid-column: 1 / -1; }
 }
+
+/* Log out is a POST form now; keep it laid out like the other nav buttons */
+.inline-form { margin: 0; display: inline-flex; }

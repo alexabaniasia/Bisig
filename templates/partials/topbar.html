@@ -16,6 +16,7 @@
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
                 Browse
             </a>
+            {% if user.is_authenticated %}
             <a href="{% url 'user_profile:profile' %}" class="nav-link {% if active == 'profile' %}is-active{% endif %}">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21a8 8 0 0 0-16 0"/><circle cx="12" cy="8" r="4"/></svg>
                 Profile
@@ -24,11 +25,20 @@
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
                 Settings
             </a>
+            {% endif %}
         </nav>
 
         <div class="nav-actions">
-            <a href="{% url 'listings:listing_create' %}" class="btn btn-primary btn-sm">Post a listing</a>
-            <a href="{% url 'login:logout' %}" class="btn btn-outline btn-sm">Log out</a>
+            {% if user.is_authenticated %}
+                <a href="{% url 'listings:listing_create' %}" class="btn btn-primary btn-sm">Post a listing</a>
+                <form method="post" action="{% url 'login:logout' %}" class="inline-form">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-outline btn-sm">Log out</button>
+                </form>
+            {% else %}
+                <a href="{% url 'login:login' %}" class="btn btn-outline btn-sm">Log in</a>
+                <a href="{% url 'register:register' %}" class="btn btn-green btn-sm">Register</a>
+            {% endif %}
         </div>
     </div>
 </header>
