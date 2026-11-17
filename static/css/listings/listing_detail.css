@@ -1,0 +1,6 @@
+.detail-card { display: flex; flex-direction: column; gap: 16px; padding: 28px; }
+.detail-card h1 { font-size: 28px; line-height: 1.25; }
+.detail-desc { color: var(--ink-soft); line-height: 1.7; }
+.detail-action { margin-top: 8px; padding-top: 20px; border-top: 1px solid var(--line); }
+.detail-note { text-align: center; color: var(--ink-soft); font-size: 14.5px; }
+.detail-note.is-done { color: var(--green-ink); font-weight: 600; }
