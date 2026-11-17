@@ -23,14 +23,14 @@
                         <a href="{% url 'listings:listing_list' %}" class="btn btn-primary">Browse listings</a>
                         <a href="{% url 'listings:listing_create' %}" class="btn btn-outline">Post a listing</a>
                     </div>
+                    {% if categories %}
                     <div class="hero-cats">
                         <span class="label">Popular:</span>
-                        <span class="chip">Tutoring</span>
-                        <span class="chip">Plumbing</span>
-                        <span class="chip">Tech support</span>
-                        <span class="chip">Catering</span>
-                        <span class="chip">Errands</span>
+                        {% for category in categories %}
+                            <a href="{% url 'listings:listing_list' %}?category={{ category.id }}" class="chip">{{ category.category_name }}</a>
+                        {% endfor %}
                     </div>
+                    {% endif %}
                 </div>
 
                 <div class="hero-visual">
@@ -154,65 +154,19 @@
                 </div>
 
                 <div class="posting-grid">
+                    {% for listing in recent_listings %}
                     <article class="card posting-card">
                         <div class="posting-top">
-                            <span class="icon-bubble tone-blue">
-                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94Z"/></svg>
-                            </span>
-                            <span class="posting-tag">Plumbing</span>
+                            <span class="icon-bubble {% cycle 'tone-blue' 'tone-green' %}">{{ listing.user.username|first|upper }}</span>
+                            <span class="posting-tag">{{ listing.category.category_name }}</span>
                         </div>
-                        <h3>Plumbing by Chuchu</h3>
-                        <p class="posting-desc">Leaky pipes, clogged drains, and quick fixes around the house.</p>
-                        <div class="posting-meta"><span>Purok 3</span><span>Available today</span></div>
+                        <h3><a href="{% url 'listings:listing_detail' listing.pk %}">{{ listing.title }}</a></h3>
+                        <p class="posting-desc">{{ listing.description|truncatewords:18 }}</p>
+                        <div class="posting-meta"><span>by {{ listing.user.username }}</span><span>{{ listing.date_posted|timesince }} ago</span></div>
                     </article>
-
-                    <article class="card posting-card">
-                        <div class="posting-top">
-                            <span class="icon-bubble tone-green">
-                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
-                            </span>
-                            <span class="posting-tag">Tutoring</span>
-                        </div>
-                        <h3>Tutoring by Ana</h3>
-                        <p class="posting-desc">Elementary math and reading lessons for kids after school.</p>
-                        <div class="posting-meta"><span>Purok 1</span><span>Weekends</span></div>
-                    </article>
-
-                    <article class="card posting-card">
-                        <div class="posting-top">
-                            <span class="icon-bubble tone-blue">
-                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
-                            </span>
-                            <span class="posting-tag">Tech Support</span>
-                        </div>
-                        <h3>Tech Support by Mark</h3>
-                        <p class="posting-desc">Phone and computer troubleshooting — no problem too small.</p>
-                        <div class="posting-meta"><span>Purok 5</span><span>Evenings</span></div>
-                    </article>
-
-                    <article class="card posting-card">
-                        <div class="posting-top">
-                            <span class="icon-bubble tone-green">
-                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 2v7c0 1.1.9 2 2 2h2a2 2 0 0 0 2-2V2"/><path d="M7 2v20"/><path d="M21 15V2a5 5 0 0 0-5 5v6c0 1.1.9 2 2 2h3Zm0 0v7"/></svg>
-                            </span>
-                            <span class="posting-tag">Catering</span>
-                        </div>
-                        <h3>Catering by Rosa</h3>
-                        <p class="posting-desc">Home-cooked meals for small gatherings, fiestas, and events.</p>
-                        <div class="posting-meta"><span>Purok 2</span><span>By request</span></div>
-                    </article>
-
-                    <article class="card posting-card">
-                        <div class="posting-top">
-                            <span class="icon-bubble tone-blue">
-                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"/><path d="M3 6h18"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
-                            </span>
-                            <span class="posting-tag">Errands</span>
-                        </div>
-                        <h3>Errands by Jun</h3>
-                        <p class="posting-desc">Grocery runs, bill payments, and small pick-ups around town.</p>
-                        <div class="posting-meta"><span>Purok 4</span><span>Mornings</span></div>
-                    </article>
+                    {% empty %}
+                    <p class="posting-desc" style="grid-column: 1 / -1;">No listings yet. Be the first to post one!</p>
+                    {% endfor %}
 
                     <a href="{% url 'listings:listing_create' %}" class="card posting-card is-cta">
                         <h3>Have a skill to share?</h3>

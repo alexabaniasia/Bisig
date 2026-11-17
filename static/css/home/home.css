@@ -261,3 +261,12 @@
     .cta-panel { padding: 36px 28px; }
     .section-row { flex-direction: column; align-items: flex-start; }
 }
+
+/* Popular category chips are links now */
+a.chip:hover { border-color: var(--blue); color: var(--blue); text-decoration: none; }
+
+/* Real listing cards: whole card clickable through the title link */
+.posting-card { position: relative; }
+.posting-card h3 a { color: inherit; text-decoration: none; }
+.posting-card h3 a::after { content: ""; position: absolute; inset: 0; border-radius: inherit; }
+.posting-top .icon-bubble { font-weight: 700; }
