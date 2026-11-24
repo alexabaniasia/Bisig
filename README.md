@@ -4,14 +4,15 @@ Bisig is a Django web app where neighbors in a barangay offer and request skills
 
 ## Features
 
-- Register, log in and log out
-- Browse listings and filter them by category
-- Post an offer or a request
-- Listing detail page with a button to respond
+- Register (with password checks), log in and log out
+- Browse listings with category filters and pagination
+- Post an offer or a request, and edit or delete your own listings
+- Listing detail page: respond to a listing, or (as the owner) accept or decline responses and close or reopen it
+- "My activity" page with your listings and your responses
 - Profile page with photo upload
 - Settings page with a dark mode toggle
 
-Not built yet: email notifications, reviews, neighbor verification, editing or deleting your own listings.
+Not built yet: email notifications, reviews, neighbor verification.
 
 ## Tech stack
 
