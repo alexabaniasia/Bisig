@@ -6,9 +6,10 @@ from .models import Listing, Category, Application
 from .forms import ListingForm
 from django.db.models import Count, Q
 from django.core.paginator import Paginator
+from .queries import listings_with_category_and_user, requests_needing_help
 
 def listing_list(request):
-    listings = Listing.objects.select_related("category", "user").order_by("-date_posted")
+    listings = listings_with_category_and_user()
 
     # Only accept a numeric category id, so ?category=abc can't crash the page
     selected_category = None
@@ -156,3 +157,7 @@ def listing_delete(request, pk):
     listing.delete()
     return redirect("listings:my_activity")
 
+def needs_help(request):
+    return render(request, "listings/needs_help.html", {
+        "listings": requests_needing_help(),
+    })

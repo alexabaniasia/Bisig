@@ -28,6 +28,7 @@
             {% for category in categories %}
                 <a href="?category={{ category.id }}" class="filter-chip {% if selected_category == category.id %}is-active{% endif %}">{{ category.category_name }}</a>
             {% endfor %}
+            <a href="{% url 'listings:needs_help' %}" class="filter-chip">Needs help</a>
         </div>
 
         {% if listings %}

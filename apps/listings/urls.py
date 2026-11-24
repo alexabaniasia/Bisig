@@ -12,4 +12,5 @@ urlpatterns = [
     path("mine/", views.my_activity, name="my_activity"),
     path("<int:pk>/edit/", views.listing_edit, name="listing_edit"),
     path("<int:pk>/delete/", views.listing_delete, name="listing_delete"),
+    path("needs-help/", views.needs_help, name="needs_help"),
 ]

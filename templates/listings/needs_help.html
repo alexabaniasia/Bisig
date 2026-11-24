@@ -1,0 +1,53 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Needs help · Bisig</title>
+    <link rel="stylesheet" href="{% static 'css/common/common.css' %}">
+    <link rel="stylesheet" href="{% static 'css/listings/listing_list.css' %}">
+</head>
+<body{% if dark_mode %} class="dark-mode"{% endif %}>
+    {% include 'partials/topbar.html' with active='browse' %}
+
+    <main class="container page">
+        <div class="page-title">
+            <span class="kicker">Community board</span>
+            <h1>Requests that still need help</h1>
+            <p>Open requests that nobody has responded to yet.</p>
+        </div>
+
+        {% if listings %}
+            <div class="listing-grid">
+                {% for listing in listings %}
+                    {% cycle 'cat-1' 'cat-2' 'cat-3' 'cat-4' 'cat-5' as cat_class silent %}
+                    <article class="card listing-card">
+                        <div class="listing-top">
+                            <span class="avatar-sm">{{ listing.user.username|first|upper }}</span>
+                            <div class="who">
+                                <strong>{{ listing.user.username }}</strong>
+                                <small>{{ listing.date_posted|timesince }} ago</small>
+                            </div>
+                            <span class="status-pill status-{{ listing.status }}">{{ listing.get_status_display }}</span>
+                        </div>
+                        <h3><a href="{% url 'listings:listing_detail' listing.pk %}">{{ listing.title }}</a></h3>
+                        <p class="listing-desc">{{ listing.description|truncatewords:22 }}</p>
+                        <div class="listing-tags">
+                            <span class="cat-pill {{ cat_class }}">{{ listing.category.category_name }}</span>
+                            <span class="type-pill type-request">Requesting</span>
+                        </div>
+                    </article>
+                {% endfor %}
+            </div>
+        {% else %}
+            <div class="empty-state">
+                <p>Every open request already has a response.</p>
+                <a href="{% url 'listings:listing_list' %}" class="btn btn-primary">Browse all listings</a>
+            </div>
+        {% endif %}
+    </main>
+
+    {% include 'partials/footer.html' %}
+</body>
+</html>
