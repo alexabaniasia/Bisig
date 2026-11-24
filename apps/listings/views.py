@@ -5,6 +5,7 @@ from django.core.exceptions import PermissionDenied
 from .models import Listing, Category, Application
 from .forms import ListingForm
 from django.db.models import Count, Q
+from django.core.paginator import Paginator
 
 def listing_list(request):
     listings = Listing.objects.select_related("category", "user").order_by("-date_posted")
@@ -16,8 +17,12 @@ def listing_list(request):
         selected_category = int(category_id)
         listings = listings.filter(category_id=selected_category)
 
+    paginator = Paginator(listings, 9)
+    page_obj = paginator.get_page(request.GET.get("page"))
+
     return render(request, "listings/listing_list.html", {
-        "listings": listings,
+        "listings": page_obj,
+        "page_obj": page_obj,
         "categories": Category.objects.all(),
         "selected_category": selected_category,
     })
@@ -150,3 +155,4 @@ def listing_delete(request, pk):
     listing = get_object_or_404(Listing, pk=pk, user=request.user)
     listing.delete()
     return redirect("listings:my_activity")
+
