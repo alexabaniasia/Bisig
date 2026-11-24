@@ -9,4 +9,5 @@ urlpatterns = [
     path("<int:pk>/apply/", views.listing_apply, name="listing_apply"),
     path("applications/<int:pk>/update/", views.application_update, name="application_update"),
     path("<int:pk>/status/", views.listing_set_status, name="listing_set_status"),
+    path("mine/", views.my_activity, name="my_activity"),
 ]

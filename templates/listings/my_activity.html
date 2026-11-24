@@ -1,0 +1,54 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My activity · Bisig</title>
+    <link rel="stylesheet" href="{% static 'css/common/common.css' %}">
+    <link rel="stylesheet" href="{% static 'css/listings/listing_list.css' %}">
+    <link rel="stylesheet" href="{% static 'css/listings/my_activity.css' %}">
+</head>
+<body{% if dark_mode %} class="dark-mode"{% endif %}>
+    {% include 'partials/topbar.html' with active='activity' %}
+
+    <main class="container narrow-sm page">
+        <div class="page-title">
+            <span class="kicker">Your activity</span>
+            <h1>My activity</h1>
+            <p>Listings you posted and listings you responded to.</p>
+        </div>
+
+        <h2 class="section-title">My listings</h2>
+        {% for listing in my_listings %}
+            <a href="{% url 'listings:listing_detail' listing.pk %}" class="card activity-row">
+                <div class="who">
+                    <strong>{{ listing.title }}</strong>
+                    <small>{{ listing.category.category_name }} · {{ listing.response_count }} response{{ listing.response_count|pluralize }}</small>
+                </div>
+                {% if listing.pending_count %}
+                    <span class="status-pill status-pending">{{ listing.pending_count }} new</span>
+                {% endif %}
+                <span class="status-pill status-{{ listing.status }}">{{ listing.get_status_display }}</span>
+            </a>
+        {% empty %}
+            <p class="activity-empty">You haven't posted any listings yet.</p>
+        {% endfor %}
+
+        <h2 class="section-title">My responses</h2>
+        {% for application in my_applications %}
+            <a href="{% url 'listings:listing_detail' application.listing.pk %}" class="card activity-row">
+                <div class="who">
+                    <strong>{{ application.listing.title }}</strong>
+                    <small>by {{ application.listing.user.username }} · {{ application.date_applied|timesince }} ago</small>
+                </div>
+                <span class="status-pill status-{{ application.status }}">{{ application.get_status_display }}</span>
+            </a>
+        {% empty %}
+            <p class="activity-empty">You haven't responded to any listings yet.</p>
+        {% endfor %}
+    </main>
+
+    {% include 'partials/footer.html' %}
+</body>
+</html>

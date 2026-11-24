@@ -4,7 +4,7 @@ from django.views.decorators.http import require_POST
 from django.core.exceptions import PermissionDenied
 from .models import Listing, Category, Application
 from .forms import ListingForm
-
+from django.db.models import Count, Q
 
 def listing_list(request):
     listings = Listing.objects.select_related("category", "user").order_by("-date_posted")
@@ -108,3 +108,24 @@ def listing_set_status(request, pk):
         listing.status = new_status
         listing.save(update_fields=["status"])
     return redirect("listings:listing_detail", pk=pk)
+
+@login_required
+def my_activity(request):
+    my_listings = (
+        Listing.objects.filter(user=request.user)
+        .select_related("category")
+        .annotate(
+            response_count=Count("applications"),
+            pending_count=Count("applications", filter=Q(applications__status="pending")),
+        )
+        .order_by("-date_posted")
+    )
+    my_applications = (
+        Application.objects.filter(applicant=request.user)
+        .select_related("listing", "listing__user")
+        .order_by("-date_applied")
+    )
+    return render(request, "listings/my_activity.html", {
+        "my_listings": my_listings,
+        "my_applications": my_applications,
+    })
