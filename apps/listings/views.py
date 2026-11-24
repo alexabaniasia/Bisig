@@ -1,7 +1,7 @@
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect, get_object_or_404
 from django.views.decorators.http import require_POST
-
+from django.core.exceptions import PermissionDenied
 from .models import Listing, Category, Application
 from .forms import ListingForm
 
@@ -27,17 +27,27 @@ def listing_detail(request, pk):
     listing = get_object_or_404(
         Listing.objects.select_related("category", "user"), pk=pk
     )
+    is_owner = listing.user_id == request.user.id
 
-    has_applied = False
+    my_application = None
+    applications = None
     if request.user.is_authenticated:
-        has_applied = Application.objects.filter(
-            listing=listing, applicant=request.user
-        ).exists()
+        if is_owner:
+            applications = (
+                listing.applications.select_related("applicant")
+                .order_by("-date_applied")
+            )
+        else:
+            my_application = Application.objects.filter(
+                listing=listing, applicant=request.user
+            ).first()
 
     return render(request, "listings/listing_detail.html", {
         "listing": listing,
-        "has_applied": has_applied,
-        "is_owner": listing.user_id == request.user.id,
+        "is_owner": is_owner,
+        "my_application": my_application,
+        "has_applied": my_application is not None,
+        "applications": applications,
     })
 
 
@@ -65,3 +75,36 @@ def listing_create(request):
     else:
         form = ListingForm()
     return render(request, "listings/listing_form.html", {"form": form})
+
+@login_required
+@require_POST
+def application_update(request, pk):
+    application = get_object_or_404(
+        Application.objects.select_related("listing"), pk=pk
+    )
+    # Only the person who posted the listing can accept or decline
+    if application.listing.user_id != request.user.id:
+        raise PermissionDenied
+
+    action = request.POST.get("action")
+    if action == "accept":
+        application.status = "accepted"
+    elif action == "reject":
+        application.status = "rejected"
+    else:
+        return redirect("listings:listing_detail", pk=application.listing_id)
+
+    application.save(update_fields=["status"])
+    return redirect("listings:listing_detail", pk=application.listing_id)
+
+
+@login_required
+@require_POST
+def listing_set_status(request, pk):
+    # Non-owners get a 404 here
+    listing = get_object_or_404(Listing, pk=pk, user=request.user)
+    new_status = request.POST.get("status")
+    if new_status in ("open", "closed"):
+        listing.status = new_status
+        listing.save(update_fields=["status"])
+    return redirect("listings:listing_detail", pk=pk)

@@ -4,3 +4,20 @@
 .detail-action { margin-top: 8px; padding-top: 20px; border-top: 1px solid var(--line); }
 .detail-note { text-align: center; color: var(--ink-soft); font-size: 14.5px; }
 .detail-note.is-done { color: var(--green-ink); font-weight: 600; }
+
+.detail-inline { margin-top: 12px; }
+
+.status-accepted { background: var(--green-soft); color: var(--green-ink); }
+.status-rejected { background: var(--danger-soft); color: var(--danger); }
+
+.responses-card { margin-top: 18px; }
+.responses-card h2 { font-size: 20px; }
+.response-row {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 12px;
+    padding: 12px 0;
+    border-top: 1px solid var(--line);
+}
+.response-actions { display: flex; gap: 8px; margin: 0 0 0 auto; }
