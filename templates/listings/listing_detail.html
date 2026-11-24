@@ -9,7 +9,7 @@
     <link rel="stylesheet" href="{% static 'css/listings/listing_list.css' %}">
     <link rel="stylesheet" href="{% static 'css/listings/listing_detail.css' %}">
 </head>
-<body>
+<body{% if dark_mode %} class="dark-mode"{% endif %}>
     {% include 'partials/topbar.html' with active='browse' %}
 
     <main class="container narrow-sm page">

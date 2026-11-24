@@ -81,22 +81,3 @@
 .toggle-checkbox:checked ~ .toggle-switch { background: var(--green); }
 .toggle-checkbox:checked ~ .toggle-switch .toggle-knob { transform: translateX(19px); }
 .toggle-checkbox:focus-visible ~ .toggle-switch { outline: 3px solid rgba(37, 99, 235, 0.35); outline-offset: 2px; }
-
-/* Dark mode: flips the shared color variables, so every component follows */
-body.dark-mode {
-    --bg: #0A1222;
-    --surface: #111B30;
-    --surface-alt: #16223B;
-    --ink: #EAF0FB;
-    --ink-soft: #9FB0CD;
-    --line: #24344F;
-    --blue-soft: #16294F;
-    --green-soft: #123A2E;
-    --blue-ink: #9DBBFF;
-    --green-ink: #6EDDA9;
-    --shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
-    --shadow-lg: 0 28px 70px rgba(0, 0, 0, 0.5);
-    background-image:
-        radial-gradient(700px 420px at 6% -4%, rgba(37, 99, 235, 0.20), transparent 65%),
-        radial-gradient(600px 400px at 98% 2%, rgba(22, 162, 99, 0.14), transparent 65%);
-}

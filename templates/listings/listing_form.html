@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="{% static 'css/common/common.css' %}">
     <link rel="stylesheet" href="{% static 'css/listings/listing_form.css' %}">
 </head>
-<body>
+<body{% if dark_mode %} class="dark-mode"{% endif %}>
     {% include 'partials/topbar.html' with active='browse' %}
 
     <main class="container narrow-sm page">
