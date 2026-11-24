@@ -21,3 +21,6 @@
     border-top: 1px solid var(--line);
 }
 .response-actions { display: flex; gap: 8px; margin: 0 0 0 auto; }
+
+.owner-actions { display: flex; gap: 10px; margin-top: 12px; }
+.owner-actions form { margin: 0; }

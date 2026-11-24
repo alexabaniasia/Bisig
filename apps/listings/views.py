@@ -129,3 +129,24 @@ def my_activity(request):
         "my_listings": my_listings,
         "my_applications": my_applications,
     })
+
+@login_required
+def listing_edit(request, pk):
+    # Non-owners get a 404
+    listing = get_object_or_404(Listing, pk=pk, user=request.user)
+    if request.method == "POST":
+        form = ListingForm(request.POST, instance=listing)
+        if form.is_valid():
+            form.save()
+            return redirect("listings:listing_detail", pk=listing.pk)
+    else:
+        form = ListingForm(instance=listing)
+    return render(request, "listings/listing_form.html", {"form": form, "listing": listing})
+
+
+@login_required
+@require_POST
+def listing_delete(request, pk):
+    listing = get_object_or_404(Listing, pk=pk, user=request.user)
+    listing.delete()
+    return redirect("listings:my_activity")

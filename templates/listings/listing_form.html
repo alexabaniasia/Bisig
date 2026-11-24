@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Post a Listing · Bisig</title>
+    <title>{% if listing %}Edit listing{% else %}Post a listing{% endif %} · Bisig</title>
     <link rel="stylesheet" href="{% static 'css/common/common.css' %}">
     <link rel="stylesheet" href="{% static 'css/listings/listing_form.css' %}">
 </head>
@@ -13,15 +13,15 @@
 
     <main class="container narrow-sm page">
         <div class="page-title">
-            <span class="kicker">New listing</span>
-            <h1>Post a listing</h1>
+            <span class="kicker">{% if listing %}Edit listing{% else %}New listing{% endif %}</span>
+            <h1>{% if listing %}Edit your listing{% else %}Post a listing{% endif %}</h1>
             <p>Offer a skill, or ask your neighbors for help with something.</p>
         </div>
 
         <form method="post" class="stack card form-card">
             {% csrf_token %}
             {{ form.as_p }}
-            <button type="submit" class="btn btn-primary btn-block">Post listing</button>
+            <button type="submit" class="btn btn-primary btn-block">{% if listing %}Save changes{% else %}Post listing{% endif %}</button>
         </form>
 
         <a href="{% url 'listings:listing_list' %}" class="back-link">

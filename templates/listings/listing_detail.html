@@ -47,6 +47,13 @@
                             <button type="submit" class="btn btn-outline btn-block">Mark as closed</button>
                         {% endif %}
                     </form>
+                    <div class="owner-actions">
+                        <a href="{% url 'listings:listing_edit' listing.pk %}" class="btn btn-outline btn-sm">Edit</a>
+                        <form method="post" action="{% url 'listings:listing_delete' listing.pk %}" onsubmit="return confirm('Delete this listing? This cannot be undone.');">
+                            {% csrf_token %}
+                            <button type="submit" class="btn btn-outline btn-sm">Delete</button>
+                        </form>
+                    </div>
                 {% elif has_applied %}
                     <p class="detail-note is-done">✓ You've responded to this listing. Status: {{ my_application.get_status_display }}</p>
                 {% elif listing.status != 'open' %}
