@@ -2,17 +2,24 @@ from django.contrib.auth import get_user_model
 from django.core.management.base import BaseCommand
 from django.db import transaction
 
-from apps.listings.models import Application, Category, Listing
+from apps.listings.models import Application, Category, Listing, Review
+from apps.user_profile.models import UserProfile
+from apps.user_settings.models import UserSettings
 
 User = get_user_model()
 
-# (username, full name, barangay)
+# (username, full name, barangay, contact number, bio, share contact number?)
 USERS = [
-    ("demo_ana", "Ana Reyes", "Lahug"),
-    ("demo_ben", "Ben Cruz", "Mabolo"),
-    ("demo_carla", "Carla Santos", "Guadalupe"),
-    ("demo_dino", "Dino Villanueva", "Banilad"),
-    ("demo_elena", "Elena Garcia", "Talamban"),
+    ("demo_ana", "Ana Reyes", "Lahug", "0917 100 0001",
+     "Retired teacher who loves helping kids with homework and growing vegetables.", True),
+    ("demo_ben", "Ben Cruz", "Mabolo", "0917 100 0002",
+     "Handyman for over 15 years. Plumbing, small appliances and general repairs.", True),
+    ("demo_carla", "Carla Santos", "Guadalupe", "0917 100 0003",
+     "Home cook and mother of two. I enjoy feeding the whole neighborhood.", False),
+    ("demo_dino", "Dino Villanueva", "Banilad", "0917 100 0004",
+     "Gardener and part-time carpenter. Always happy to lend a hand.", False),
+    ("demo_elena", "Elena Garcia", "Talamban", "0917 100 0005",
+     "IT student who helps neighbors with phones, laptops and Wi-Fi.", False),
 ]
 
 CATEGORIES = [
@@ -82,6 +89,18 @@ APPLICATIONS = [
     ("babysit_request", "demo_ana", "accepted"),
 ]
 
+# (listing key, applicant, reviewer, rating, comment) - only for accepted responses
+REVIEWS = [
+    ("faucet_repair", "demo_dino", "demo_dino", 5,
+     "Ben fixed my leaking faucet in under an hour. Very fair price."),
+    ("faucet_repair", "demo_dino", "demo_ben", 5,
+     "Dino was on time and easy to deal with."),
+    ("veggie_garden", "demo_dino", "demo_ana", 4,
+     "Great advice on what to plant in a small backyard."),
+    ("veggie_garden", "demo_dino", "demo_dino", 5,
+     "Ana was a pleasure to work with."),
+]
+
 
 class Command(BaseCommand):
     help = "Add (or remove with --clear) demo users, listings and responses"
@@ -108,15 +127,27 @@ class Command(BaseCommand):
             categories[name] = category
 
         users = {}
-        for username, full_name, barangay in USERS:
+        for username, full_name, barangay, contact, bio, share_contact in USERS:
             user, created = User.objects.get_or_create(
                 username=username,
                 defaults={"full_name": full_name, "barangay": barangay, "is_verified": True},
             )
             if created:
                 user.set_password(options["password"])
-                user.save()
+            if not user.contact_number:
+                user.contact_number = contact
+            user.save()
             users[username] = user
+
+            profile, _ = UserProfile.objects.get_or_create(user=user)
+            if not profile.bio:
+                profile.bio = bio
+                profile.save()
+
+            prefs, _ = UserSettings.objects.get_or_create(user=user)
+            if share_contact and not prefs.show_contact_number:
+                prefs.show_contact_number = True
+                prefs.save()
 
         listings = {}
         new_listings = 0
@@ -130,6 +161,8 @@ class Command(BaseCommand):
                 new_listings += 1
             listings[key] = listing
 
+        owners = {item[0]: item[1] for item in LISTINGS}
+
         new_apps = 0
         for key, applicant, status in APPLICATIONS:
             _, created = Application.objects.get_or_create(
@@ -138,7 +171,19 @@ class Command(BaseCommand):
             )
             new_apps += int(created)
 
+        new_reviews = 0
+        for key, applicant, reviewer, rating, comment in REVIEWS:
+            application = Application.objects.get(
+                listing=listings[key], applicant=users[applicant]
+            )
+            reviewee = owners[key] if reviewer == applicant else applicant
+            _, created = Review.objects.get_or_create(
+                application=application, reviewer=users[reviewer],
+                defaults={"reviewee": users[reviewee], "rating": rating, "comment": comment},
+            )
+            new_reviews += int(created)
+
         self.stdout.write(self.style.SUCCESS(
-            f"Done. Added {new_listings} listings and {new_apps} responses."))
+            f"Done. Added {new_listings} listings, {new_apps} responses and {new_reviews} reviews."))
         self.stdout.write("Demo logins: " + ", ".join(usernames))
         self.stdout.write(f"Password: {options['password']}")

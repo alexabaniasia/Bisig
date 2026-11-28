@@ -1,0 +1,57 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Leave a review · Bisig</title>
+    <link rel="stylesheet" href="{% static 'css/common/common.css' %}">
+    <link rel="stylesheet" href="{% static 'css/listings/listing_list.css' %}">
+    <link rel="stylesheet" href="{% static 'css/common/extras.css' %}">
+</head>
+<body{% if dark_mode %} class="dark-mode"{% endif %}>
+    {% include 'partials/topbar.html' with active='activity' %}
+
+    <main class="container narrow-sm page">
+        <div class="page-title">
+            <span class="kicker">Leave a review</span>
+            <h1>How was it with {{ reviewee.username }}?</h1>
+            <p>About “{{ listing.title }}”.</p>
+        </div>
+
+        <form method="post" class="stack card review-form">
+            {% csrf_token %}
+
+            {% if form.errors %}
+                <div class="error-banner">
+                    {% for field in form %}{% for error in field.errors %}{{ error }} {% endfor %}{% endfor %}
+                </div>
+            {% endif %}
+
+            <div class="field">
+                <label>Your rating</label>
+                <div class="star-rating">
+                    {% for value, label in form.rating.field.choices %}
+                        <input type="radio" id="star{{ value }}" name="rating" value="{{ value }}" {% if form.rating.value|stringformat:"s" == value|stringformat:"s" %}checked{% endif %} required>
+                        <label for="star{{ value }}" title="{{ value }} star{{ value|pluralize }}">★</label>
+                    {% endfor %}
+                </div>
+            </div>
+
+            <div class="field">
+                <label for="id_comment">Comment (optional)</label>
+                {{ form.comment }}
+            </div>
+
+            <button type="submit" class="btn btn-primary btn-block">Submit review</button>
+        </form>
+
+        <a href="{% url 'listings:listing_detail' listing.pk %}" class="back-link">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m12 19-7-7 7-7"/><path d="M19 12H5"/></svg>
+            Back to the listing
+        </a>
+    </main>
+
+    {% include 'partials/footer.html' %}
+</body>
+</html>

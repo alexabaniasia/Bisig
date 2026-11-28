@@ -8,11 +8,14 @@
     <link rel="stylesheet" href="{% static 'css/common/common.css' %}">
     <link rel="stylesheet" href="{% static 'css/listings/listing_list.css' %}">
     <link rel="stylesheet" href="{% static 'css/listings/my_activity.css' %}">
+    <link rel="stylesheet" href="{% static 'css/common/extras.css' %}">
 </head>
 <body{% if dark_mode %} class="dark-mode"{% endif %}>
     {% include 'partials/topbar.html' with active='activity' %}
 
     <main class="container narrow-sm page">
+        {% include 'partials/messages.html' %}
+
         <div class="page-title">
             <span class="kicker">Your activity</span>
             <h1>My activity</h1>
@@ -32,7 +35,10 @@
                 <span class="status-pill status-{{ listing.status }}">{{ listing.get_status_display }}</span>
             </a>
         {% empty %}
-            <p class="activity-empty">You haven't posted any listings yet.</p>
+            <div class="empty-state small">
+                <p>You haven't posted any listings yet.</p>
+                <a href="{% url 'listings:listing_create' %}" class="btn btn-primary btn-sm">Post your first listing</a>
+            </div>
         {% endfor %}
 
         <h2 class="section-title">My responses</h2>
@@ -45,7 +51,10 @@
                 <span class="status-pill status-{{ application.status }}">{{ application.get_status_display }}</span>
             </a>
         {% empty %}
-            <p class="activity-empty">You haven't responded to any listings yet.</p>
+            <div class="empty-state small">
+                <p>You haven't responded to any listings yet.</p>
+                <a href="{% url 'listings:listing_list' %}" class="btn btn-outline btn-sm">Browse listings</a>
+            </div>
         {% endfor %}
     </main>
 
