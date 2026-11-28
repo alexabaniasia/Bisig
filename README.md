@@ -4,15 +4,17 @@ Bisig is a Django web app where neighbors in a barangay offer and request skills
 
 ## Features
 
-- Register (with password checks), log in and log out
-- Browse listings with category filters and pagination
-- Post an offer or a request, and edit or delete your own listings
-- Listing detail page: respond to a listing, or (as the owner) accept or decline responses and close or reopen it
+- Register with your name and barangay, log in and log out (with password checks)
+- Browse listings with search, type filter, sorting, category chips and pagination
+- Post an offer or a request, and edit, close, reopen or delete your own listings
+- Listing detail page: respond to a listing, or (as the owner) accept or decline responses
+- Reviews and star ratings after an accepted response, shown on public profiles
+- Public profile pages with bio, verified badge, open listings and reviews
 - "My activity" page with your listings and your responses
-- Profile page with photo upload
-- Settings page with a dark mode toggle
-
-Not built yet: email notifications, reviews, neighbor verification.
+- "Needs help" page: open requests nobody has responded to yet (SQL subquery)
+- Profile page with photo upload and personal details
+- Settings: dark mode, show/hide your contact number, change password
+- Admin site to manage users (including marking neighbors as verified), listings, responses and reviews
 
 ## Tech stack
 
@@ -47,7 +49,12 @@ Django 6.1, PostgreSQL, Pillow, plain HTML and CSS.
    ```
    python manage.py createsuperuser
    ```
-7. Run the server:
+7. (Optional) Add sample users, listings, responses and reviews:
+   ```
+   python manage.py seed_demo_data
+   ```
+   Remove them again with `python manage.py seed_demo_data --clear`.
+8. Run the server:
    ```
    python manage.py runserver
    ```
@@ -61,6 +68,13 @@ Django 6.1, PostgreSQL, Pillow, plain HTML and CSS.
 | `DEBUG` | `True` for local development, `False` in production. |
 | `ALLOWED_HOSTS` | Comma-separated hosts, e.g. `127.0.0.1,localhost`. |
 | `DATABASE_URL` | PostgreSQL connection URL. The app requires an SSL connection. |
+
+## Useful commands
+
+```
+python manage.py show_queries   # prints the SQL behind the JOIN and SUBQUERY features
+python manage.py check
+```
 
 ## Project structure
 

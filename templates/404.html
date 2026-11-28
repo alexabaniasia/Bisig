@@ -1,0 +1,28 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>We couldn't find that page · Bisig</title>
+    <link rel="stylesheet" href="{% static 'css/common/common.css' %}">
+    <link rel="stylesheet" href="{% static 'css/common/extras.css' %}">
+</head>
+<body{% if dark_mode %} class="dark-mode"{% endif %}>
+    {% include 'partials/topbar.html' with active='' %}
+
+    <main class="container narrow-sm page">
+        <div class="card error-card">
+            <span class="error-code">404</span>
+            <h1>We couldn't find that page</h1>
+            <p>The page may have moved, or the link is wrong.</p>
+            <div class="error-actions">
+                <a href="{% url 'home:home' %}" class="btn btn-primary">Go to Home</a>
+                <a href="{% url 'listings:listing_list' %}" class="btn btn-outline">Browse listings</a>
+            </div>
+        </div>
+    </main>
+
+    {% include 'partials/footer.html' %}
+</body>
+</html>
