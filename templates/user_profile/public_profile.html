@@ -1,0 +1,112 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ member.full_name|default:member.username }} · Bisig</title>
+    <link rel="stylesheet" href="{% static 'css/common/common.css' %}">
+    <link rel="stylesheet" href="{% static 'css/listings/listing_list.css' %}">
+    <link rel="stylesheet" href="{% static 'css/user_profile/profile.css' %}">
+    <link rel="stylesheet" href="{% static 'css/common/extras.css' %}">
+</head>
+<body{% if dark_mode %} class="dark-mode"{% endif %}>
+    {% include 'partials/topbar.html' with active='' %}
+
+    <main class="container narrow page">
+        {% include 'partials/messages.html' %}
+
+        <section class="card profile-card">
+            <div class="profile-head member-head">
+                <div class="avatar-frame">
+                    {% if profile and profile.profile_image %}
+                        <img src="{{ profile.profile_image.url }}" alt="{{ member.username }}'s profile picture" class="avatar">
+                    {% else %}
+                        <div class="avatar-placeholder">{{ member.username|first|upper }}</div>
+                    {% endif %}
+                </div>
+
+                <div class="profile-head-info">
+                    <p class="name">
+                        {{ member.full_name|default:member.username }}
+                        {% if member.is_verified %}<span class="verified-badge">✓ Verified neighbor</span>{% endif %}
+                    </p>
+                    <p class="handle">
+                        @{{ member.username }}
+                        {% if member.barangay %}· Barangay {{ member.barangay }}{% endif %}
+                        · Member since {{ member.date_joined|date:"M Y" }}
+                    </p>
+                    <div class="rating-line">
+                        {% if review_count %}
+                            {% include 'partials/stars.html' with rating=average_stars %}
+                            <strong>{{ average }}</strong>
+                            <span class="muted">({{ review_count }} review{{ review_count|pluralize }})</span>
+                        {% else %}
+                            <span class="muted">No reviews yet</span>
+                        {% endif %}
+                    </div>
+                    {% if is_me %}
+                        <div class="avatar-actions">
+                            <a href="{% url 'user_profile:profile' %}" class="btn btn-outline btn-sm">Edit my profile</a>
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+
+            <div class="member-about">
+                <h2>About</h2>
+                {% if profile and profile.bio %}
+                    <p class="bio">{{ profile.bio|linebreaksbr }}</p>
+                {% else %}
+                    <p class="muted">{{ member.username }} hasn't written a bio yet.</p>
+                {% endif %}
+
+                {% if show_contact %}
+                    <p class="contact-line"><strong>Contact number:</strong> {{ member.contact_number }}</p>
+                {% elif is_me and member.contact_number %}
+                    <p class="contact-line muted">Your contact number is hidden. You can share it in <a href="{% url 'user_settings:settings' %}">Settings</a>.</p>
+                {% endif %}
+            </div>
+        </section>
+
+        <h2 class="section-title">Open listings</h2>
+        {% for listing in listings %}
+            <a href="{% url 'listings:listing_detail' listing.pk %}" class="card row-card">
+                <div class="who">
+                    <strong>{{ listing.title }}</strong>
+                    <small>{{ listing.category.category_name }} · {{ listing.date_posted|timesince }} ago</small>
+                </div>
+                <span class="type-pill {% if listing.listing_type == 'offer' %}type-offer{% else %}type-request{% endif %}">
+                    {% if listing.listing_type == 'offer' %}Offering{% else %}Requesting{% endif %}
+                </span>
+            </a>
+        {% empty %}
+            <div class="empty-state small"><p>No open listings right now.</p></div>
+        {% endfor %}
+
+        <h2 class="section-title">Reviews</h2>
+        {% for review in reviews %}
+            <article class="card review-card">
+                <div class="review-top">
+                    {% include 'partials/stars.html' with rating=review.rating %}
+                    <span class="review-meta">
+                        by <a href="{% url 'user_profile:public_profile' review.reviewer.username %}">{{ review.reviewer.username }}</a>
+                        · {{ review.date_reviewed|timesince }} ago
+                    </span>
+                </div>
+                {% if review.comment %}<p class="review-comment">{{ review.comment|linebreaksbr }}</p>{% endif %}
+                <small class="review-for">For: <a href="{% url 'listings:listing_detail' review.application.listing.pk %}">{{ review.application.listing.title }}</a></small>
+            </article>
+        {% empty %}
+            <div class="empty-state small"><p>No reviews yet. Reviews appear after a neighbor completes an exchange with {{ member.username }}.</p></div>
+        {% endfor %}
+
+        <a href="{% url 'listings:listing_list' %}" class="back-link">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m12 19-7-7 7-7"/><path d="M19 12H5"/></svg>
+            Back to listings
+        </a>
+    </main>
+
+    {% include 'partials/footer.html' %}
+</body>
+</html>

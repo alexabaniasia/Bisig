@@ -7,11 +7,14 @@
     <title>My Profile · Bisig</title>
     <link rel="stylesheet" href="{% static 'css/common/common.css' %}">
     <link rel="stylesheet" href="{% static 'css/user_profile/profile.css' %}">
+    <link rel="stylesheet" href="{% static 'css/common/extras.css' %}">
 </head>
 <body{% if dark_mode %} class="dark-mode"{% endif %}>
     {% include 'partials/topbar.html' with active='profile' %}
 
     <main class="container narrow page">
+        {% include 'partials/messages.html' %}
+
         <div class="page-title">
             <span class="kicker">Account</span>
             <h1>Your profile</h1>
@@ -38,13 +41,14 @@
                 </div>
 
                 <div class="profile-head-info">
-                    <p class="name">{{ request.user.username }}</p>
-                    <p class="handle">Member since {{ request.user.date_joined|date:"M Y" }}</p>
+                    <p class="name">{{ request.user.full_name|default:request.user.username }}</p>
+                    <p class="handle">@{{ request.user.username }} · Member since {{ request.user.date_joined|date:"M Y" }}</p>
                     <div class="avatar-actions">
                         <label for="id_profile_image" class="btn btn-outline btn-sm">Upload new</label>
                         {% if profile.profile_image %}
                             <label for="profile_image-clear_id" class="btn btn-outline btn-sm btn-danger-outline">Remove photo</label>
                         {% endif %}
+                        <a href="{% url 'user_profile:public_profile' request.user.username %}" class="btn btn-outline btn-sm">View public profile</a>
                     </div>
                     {% if form.profile_image.errors %}
                         <p class="field-error">{{ form.profile_image.errors.0 }}</p>
@@ -54,10 +58,43 @@
                 <div class="visually-hidden-field">{{ form.profile_image }}</div>
             </div>
 
-            <div class="field">
-                <label for="id_username_display">Username</label>
-                <input type="text" id="id_username_display" value="{{ request.user.username }}" disabled>
+            <p class="section-label">Personal details</p>
+
+            <div class="field-grid">
+                <div class="field">
+                    <label for="{{ details_form.full_name.id_for_label }}">Full name</label>
+                    {{ details_form.full_name }}
+                    {% if details_form.full_name.errors %}<p class="field-error">{{ details_form.full_name.errors.0 }}</p>{% endif %}
+                </div>
+                <div class="field">
+                    <label for="{{ details_form.barangay.id_for_label }}">Barangay</label>
+                    {{ details_form.barangay }}
+                    {% if details_form.barangay.errors %}<p class="field-error">{{ details_form.barangay.errors.0 }}</p>{% endif %}
+                </div>
+                <div class="field">
+                    <label for="{{ details_form.contact_number.id_for_label }}">Contact number</label>
+                    {{ details_form.contact_number }}
+                    {% if details_form.contact_number.errors %}<p class="field-error">{{ details_form.contact_number.errors.0 }}</p>{% endif %}
+                </div>
+                <div class="field">
+                    <label for="{{ details_form.email.id_for_label }}">Email</label>
+                    {{ details_form.email }}
+                    {% if details_form.email.errors %}<p class="field-error">{{ details_form.email.errors.0 }}</p>{% endif %}
+                </div>
+                <div class="field">
+                    <label for="{{ details_form.age.id_for_label }}">Age</label>
+                    {{ details_form.age }}
+                    {% if details_form.age.errors %}<p class="field-error">{{ details_form.age.errors.0 }}</p>{% endif %}
+                </div>
+                <div class="field">
+                    <label for="{{ details_form.address.id_for_label }}">Address</label>
+                    {{ details_form.address }}
+                    {% if details_form.address.errors %}<p class="field-error">{{ details_form.address.errors.0 }}</p>{% endif %}
+                </div>
             </div>
+            <p class="help-text">Your contact number is only shown on your public profile if you turn that on in <a href="{% url 'user_settings:settings' %}">Settings</a>.</p>
+
+            <p class="section-label">About you</p>
 
             <div class="field">
                 <label for="id_bio">Bio</label>
